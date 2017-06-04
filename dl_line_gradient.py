@@ -1,4 +1,4 @@
-#https://www.zybuluo.com/hanbingtao/note/433855
+#https://www.zybuluo.com/hanbingtao/note/448086
 class perception(object):
 	def __init__(self, input_num, iteration, rate):
 		self.iteration = iteration
