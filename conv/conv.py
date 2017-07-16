@@ -135,7 +135,7 @@ class ConvLayer(object):
         element_wise_op(self.output_array, 
                         self.activator.forward)
     def backward(self, a, sensitivity_array, activator):
-        #self.bp_sensitivity_map(sensitivity_array, activator)
+        self.bp_sensitivity_map(sensitivity_array, activator)
         self.bp_gradient(sensitivity_array)
         self.update()
 
