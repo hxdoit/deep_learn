@@ -2,6 +2,7 @@
 import numpy as np
 from filter import Filter
 from tool import *
+import sys
 class ConvLayer(object):
     def __init__(self, input_width, input_height, 
                  channel_number, filter_width, 
@@ -24,7 +25,7 @@ class ConvLayer(object):
             ConvLayer.calculate_output_size(
             self.input_height, filter_height, zero_padding,
             stride)
-        self.output_array = np.zeros((self.filter_number, 
+        self.output = np.zeros((self.filter_number, 
             self.output_height, self.output_width))
         self.filters = []
         for i in range(filter_number):
@@ -122,7 +123,7 @@ class ConvLayer(object):
     def forward(self, input_array):
         '''
         计算卷积层的输出
-        输出结果保存在self.output_array
+        输出结果保存在self.output
         '''
         self.input_array = input_array
         self.padded_input_array = padding(input_array,
@@ -130,12 +131,13 @@ class ConvLayer(object):
         for f in range(self.filter_number):
             filter = self.filters[f]
             conv(self.padded_input_array, 
-                filter.get_weights(), self.output_array[f],
+                filter.get_weights(), self.output[f],
                 self.stride, filter.get_bias())
-        element_wise_op(self.output_array, 
+        element_wise_op(self.output, 
                         self.activator.forward)
-    def backward(self, a, sensitivity_array, activator):
+    def backward(self, sensitivity_array, activator=None):
+        if not activator:
+            activator = self.activator
         self.bp_sensitivity_map(sensitivity_array, activator)
         self.bp_gradient(sensitivity_array)
-        self.update()
 

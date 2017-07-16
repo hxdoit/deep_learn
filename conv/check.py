@@ -59,11 +59,12 @@ def gradient_check():
     a, b, cl = init_test()
     cl.forward(a)
     # 求取sensitivity map，是一个全1数组
-    sensitivity_array = np.ones(cl.output_array.shape,
+    sensitivity_array = np.ones(cl.output.shape,
                                 dtype=np.float64)
     # 计算梯度
-    cl.backward(a, sensitivity_array,
+    cl.backward(sensitivity_array,
                   IdentityActivator())
+    cl.update()
     # 检查梯度
     epsilon = 10e-4
     for d in range(cl.filters[0].weights_grad.shape[0]):
@@ -71,10 +72,10 @@ def gradient_check():
             for j in range(cl.filters[0].weights_grad.shape[2]):
                 cl.filters[0].weights[d,i,j] += epsilon
                 cl.forward(a)
-                err1 = error_function(cl.output_array)
+                err1 = error_function(cl.output)
                 cl.filters[0].weights[d,i,j] -= 2*epsilon
                 cl.forward(a)
-                err2 = error_function(cl.output_array)
+                err2 = error_function(cl.output)
                 expect_grad = (err1 - err2) / (2 * epsilon)
                 cl.filters[0].weights[d,i,j] += epsilon
                 print 'weights(%d,%d,%d): expected - actural %f - %f' % (

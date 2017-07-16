@@ -18,7 +18,7 @@ def evaluate(network, test_data_set, test_labels):
     for i in range(total):
         label = get_result(test_labels[i])
         temp = numpy.array(test_data_set[i])
-        temp = temp.reshape(len(temp), -1)
+        temp = temp.reshape((1, 28, 28))
         predict = get_result(network.predict(temp))
         if label != predict:
             error += 1
@@ -28,10 +28,10 @@ def train_and_evaluate():
     epoch = 0
     train_data_set, train_labels = get_training_data_set()
     test_data_set, test_labels = get_test_data_set()
-    network = Network([784, 300, 10])
+    network = Network()
     while True:
         epoch += 1
-        network.train(train_labels, train_data_set, 0.3, 1)
+        network.train(train_labels, train_data_set, 1)
         print '%s epoch %d finished' % (datetime.now(), epoch)
         if epoch % 10 == 0:
             error_ratio = evaluate(network, test_data_set, test_labels)

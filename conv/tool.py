@@ -69,6 +69,9 @@ def get_patch(input_array, i, j, kernel_width,
         return input_array[0:max_z, i:max_height, j:max_width]
     else:
         return input_array[i:max_height, j:max_width]
+def get_max_index(arr):
+    idx = np.argmax(arr)
+    return (int(idx / arr.shape[1]), idx % arr.shape[1])
 
 
 

@@ -3,7 +3,7 @@
 # 全连接层实现类
 import numpy as np
 class FullConnectedLayer(object):
-    def __init__(self, input_size, output_size, 
+    def __init__(self, input_size, output_size, learning_rate,
                  activator):
         '''
         构造函数
@@ -13,6 +13,7 @@ class FullConnectedLayer(object):
         '''
         self.input_size = input_size
         self.output_size = output_size
+        self.learning_rate = learning_rate
         self.activator = activator
         # 权重数组W
         self.W = np.random.uniform(-0.1, 0.1,
@@ -42,9 +43,9 @@ class FullConnectedLayer(object):
             self.W.T, delta_array)
         self.W_grad = np.dot(delta_array, self.input.T)
         self.b_grad = delta_array
-    def update(self, learning_rate):
+    def update(self):
         '''
         使用梯度下降算法更新权重
         '''
-        self.W += learning_rate * self.W_grad
-        self.b += learning_rate * self.b_grad
+        self.W += self.learning_rate * self.W_grad
+        self.b += self.learning_rate * self.b_grad
