@@ -33,11 +33,11 @@ def train_and_evaluate():
         epoch += 1
         network.train(train_labels, train_data_set, 1)
         print '%s epoch %d finished' % (datetime.now(), epoch)
-        if epoch % 10 == 0:
+        if epoch % 2 == 0:
             error_ratio = evaluate(network, test_data_set, test_labels)
             print '%s after epoch %d, error ratio is %f' % (datetime.now(), epoch, error_ratio)
             if error_ratio > last_error_ratio:
-                break
+                pass
             else:
                 last_error_ratio = error_ratio
 if __name__ == '__main__':
