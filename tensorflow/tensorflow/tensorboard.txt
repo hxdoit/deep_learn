@@ -1,0 +1,4 @@
+https://www.jianshu.com/p/3ba39b4c19a3
+http://www.tensorfly.cn/tfdoc/tutorials/mnist_tf.html
+dataset:
+http://ufldl.stanford.edu/housenumbers
